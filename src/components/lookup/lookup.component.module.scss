@@ -1,0 +1,37 @@
+@import '../../stlyes/global.styles.scss';
+
+.lookup-container {
+    width: 600px;
+    border: 1px solid $grey;
+    border-radius: $border-radius;
+    min-height: 300px;
+
+    .lookup-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid $grey;
+        padding: 10px 15px 20px 15px;
+
+        header {
+            color: $black;
+            font-weight: $weight-bold;
+            font-size: $font-size-header;
+        }
+
+        &-close {
+            font-size: $font-size-icon;
+            cursor: pointer;
+        }
+
+    }
+
+    .lookup-body {
+        padding: 20px 15px;
+
+        .lookup-add-row {
+            border-bottom: 1px solid $grey;
+            padding-bottom: 10px;
+        }
+    }
+}

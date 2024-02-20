@@ -1,0 +1,20 @@
+@import '../../stlyes/global.styles.scss';
+
+.button {
+    border-radius: $border-radius;
+    color: $white;
+    padding: $padding-button;
+    border: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+
+    &-primary {
+        background-color: $primary-color;
+    }
+
+    &-secondary {
+        background-color: $secondary-color;
+    }
+}

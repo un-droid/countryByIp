@@ -1,0 +1,27 @@
+// colors
+$primary-color: #78d4fc;
+$white: #fff;
+$grey: #e8e4e4;
+$grey-darker: #c8c4c4;
+$grey-dark: #484848;
+$black: #000;
+$warning-color: #ff9800;
+$error-color: #c62828;
+//just to complete the color palette for all statuses
+$success-color: #75dcdc;
+$idle-color: #b881b8;
+
+$secondary-color: darken($primary-color, 30%);
+
+// padding
+$border-radius: 5px;
+$padding: 5px 20px;
+$padding-button: 8px 18px;
+
+
+//typography
+$weight-normal: 400;
+$weight-bold: 600;
+$font-size-default: 14px;
+$font-size-header: 21px;
+$font-size-icon: 25px;

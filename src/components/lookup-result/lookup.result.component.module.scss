@@ -1,0 +1,20 @@
+@import '../../stlyes/global.styles.scss';
+
+.result-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .icon-warning {
+        color: $warning-color;
+        font-size: 20px;
+    }
+
+    .icon-error {
+        color: $error-color;
+    }
+
+    .country-image {
+        width: 40px;
+    }
+}
