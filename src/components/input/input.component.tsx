@@ -10,7 +10,7 @@ type InputRowProps = {
 }
 
 const InputRow = ({ index, placeholder, value = '' }: InputRowProps) => {
-    console.log('input render')
+console.log('input render')
     const [ip, setIp] = useState(value)
     const [formTouched, setFormTouched] = useState(false)
     
