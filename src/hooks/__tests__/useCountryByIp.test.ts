@@ -135,7 +135,6 @@ describe('useCountryByIp hook', () => {
         })
 
         await waitFor(() => expect(result.current.loading).toBe(false))
-        console.log(result.current)
         expect(result.current.reqStatus?.status).toBe(Status.Error)
         expect(result.current.reqStatus?.message).toEqual(ERR_FETCHING)
     })
