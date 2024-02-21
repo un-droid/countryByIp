@@ -54,7 +54,6 @@ describe('InputRow Component', () => {
         expect(inputField).toHaveValue('')
     })
 
-    // 1. form Submission
     it('calls fetchCountryData on form submission with valid input', async () => {
         render(<InputRow index={1} />)
         const inputField = screen.getByRole('textbox')
