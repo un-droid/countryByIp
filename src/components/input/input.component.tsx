@@ -18,6 +18,7 @@ const InputRow = React.memo(({ index, placeholder, value = '', onRemoveRow, isLa
     const [ip, setIp] = useState(value)
     const [formTouched, setFormTouched] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
+    const [isRemoving, setIsRemoving] = useState(false)
 
     const { loading, reqStatus, fetchCountryData } = useCountryByIp()
 
@@ -38,11 +39,12 @@ const InputRow = React.memo(({ index, placeholder, value = '', onRemoveRow, isLa
 
     const handleRemoveRow = () => {
         if (isLastInput) return
-        onRemoveRow(index)
+        setIsRemoving(true)
     }
 
     return (
-        <div className={styles['row-container']}>
+        <div className={`${styles['row-container']} ${isRemoving ? styles.removing : ''}`}
+            onAnimationEnd={() => isRemoving && onRemoveRow(index)}>
             <form className={styles['input-form']} onSubmit={submitFetchRequest}>
                 <label className={styles.index}
                     onMouseEnter={() => !isLastInput && setIsHovered(true)}
