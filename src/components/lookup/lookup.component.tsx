@@ -6,9 +6,9 @@ import Button from "../button/button.component"
 import InputRow from "../input/input.component"
 import { useState } from "react"
 
-const IP_LOOKUP_TITLE = 'IP Lookup'
-const ADD = 'Add'
-const IP_LOOKUP_BODY = 'Enter one or more IP addresses and get their country'
+export const IP_LOOKUP_TITLE = 'IP Lookup'
+export const ADD = 'Add'
+export const IP_LOOKUP_BODY = 'Enter one or more IP addresses and get their country'
 
 type InputRowType = {
     inputIndex: number
