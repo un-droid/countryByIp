@@ -59,3 +59,5 @@ export type LookupResultData = {
     data: CountryResponse | null
     message?: string
 }
+
+export type BasicError = { message?: string }

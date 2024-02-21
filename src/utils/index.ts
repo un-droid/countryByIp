@@ -6,19 +6,24 @@ export const isValidIp = (ip: string): boolean => {
 }
 
 export const getLocalTime = (unixTime: number, timeZone: string = 'UTC'): string => {
-    if (unixTime <= 0) return "00:00:00"
-    
-    const date = new Date(unixTime)
+    try {
+        if (!unixTime || unixTime <= 0) return "00:00:00"
 
-    const options: Intl.DateTimeFormatOptions = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-        timeZone
+        const date = new Date(unixTime)
+
+        const options: Intl.DateTimeFormatOptions = {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone
+        }
+        const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date)
+        return formattedDate
+    } catch (error) {
+        console.error("Error formatting date:", error)
+        return "--:--:--"
     }
-
-    return new Intl.DateTimeFormat('en-US', options).format(date)
 }
 
 export const extractCountryData = (rawData: RawCountryData): CountryResponse => {

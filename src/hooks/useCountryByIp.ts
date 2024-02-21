@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { CountryResponse, LookupResultData, RawCountryData, Status } from '../types';
+import { BasicError, CountryResponse, LookupResultData, RawCountryData, Status } from '../types';
 import { BASE_URL } from '../consts';
 import { extractCountryData, isValidIp } from '../utils';
 
-const initialData: CountryResponse = {
+export const initialData: CountryResponse = {
     countryFlag: '',
     countryName: '',
     localTime: '',
@@ -11,7 +11,7 @@ const initialData: CountryResponse = {
     timeZone: ''
 }
 
-const INVALID_IP = 'Please enter a valid ip adress'
+export const INVALID_IP = 'Please enter a valid ip adress'
 const NETWORK_ERR = 'Network response was not ok'
 const UNEXPECTED_ERR = 'An unexpected error occurred'
 
@@ -30,12 +30,15 @@ export default function useCountryByIp() {
 
         try {
             const response = await fetch(`${BASE_URL}/getCountryByIp?ip=${ip}`)
+            const responseData: RawCountryData | BasicError  = await response.json()
+
             if (!response.ok) {
-                const errorResponse: { message?: string } = await response.json()
-                setReqStatus({ status: Status.Error, data: null, message: errorResponse.message || NETWORK_ERR })
+                const errorMessage = (responseData as BasicError).message || NETWORK_ERR
+                setReqStatus({ status: Status.Error, data: null, message: errorMessage })
+                return
             }
-            const countryData: RawCountryData = await response.json()
-            setReqStatus({ status: Status.Success, data: extractCountryData(countryData) })
+            
+            setReqStatus({ status: Status.Success, data: extractCountryData(responseData as RawCountryData) })
         } catch (error) {
             setReqStatus({ status: Status.Error, data: null, message: (error as Error).message || UNEXPECTED_ERR })
         } finally {
