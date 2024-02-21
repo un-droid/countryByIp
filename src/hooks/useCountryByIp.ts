@@ -11,7 +11,7 @@ export const initialData: CountryResponse = {
     timeZone: ''
 }
 
-export const INVALID_IP_MSG = 'Please enter a valid ip adress'
+export const INVALID_IP_MSG = 'Please enter a valid IP address'
 const NETWORK_ERR = 'Network response was not ok'
 const UNEXPECTED_ERR = 'An unexpected error occurred'
 
@@ -26,7 +26,6 @@ export default function useCountryByIp() {
             return
         }
         setLoading(true)
-        setReqStatus(null)
 
         try {
             const response = await fetch(`${BASE_URL}/getCountryByIp?ip=${ip}`)

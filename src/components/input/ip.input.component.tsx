@@ -1,12 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
-import styles from './input.component.module.scss'
+import styles from './ip.input.component.module.scss'
 import useCountryByIp from '../../hooks/useCountryByIp'
 import LookupResult from '../lookup-result/lookup.result.component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
 
-type InputRowProps = {
+type IPInputProps = {
     index: number
     placeholder?: string
     value?: string
@@ -14,7 +14,7 @@ type InputRowProps = {
     isLastInput: boolean
 }
 
-const InputRow = React.memo(({ index, placeholder, value = '', onRemoveRow, isLastInput }: InputRowProps) => {
+const IPInput = React.memo(({ index, placeholder, value = '', onRemoveRow, isLastInput }: IPInputProps) => {
     const [ip, setIp] = useState(value)
     const [formTouched, setFormTouched] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
@@ -25,6 +25,7 @@ const InputRow = React.memo(({ index, placeholder, value = '', onRemoveRow, isLa
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFormTouched(true)
         const { value } = e.target
+        // prevents the user from entering anything else but 0-9 and '.'
         const regex = /^[0-9.]*$/
 
         if (regex.test(value)) {
@@ -56,7 +57,7 @@ const InputRow = React.memo(({ index, placeholder, value = '', onRemoveRow, isLa
                 <input type="text"
                     onChange={handleChange}
                     className={styles.input}
-                    placeholder={placeholder}
+                    placeholder={placeholder} // in theory we can pass a placeholder for the input
                     onBlur={submitFetchRequest}
                     value={ip}
                     disabled={loading}
@@ -67,4 +68,4 @@ const InputRow = React.memo(({ index, placeholder, value = '', onRemoveRow, isLa
     )
 })
 
-export default InputRow
+export default IPInput

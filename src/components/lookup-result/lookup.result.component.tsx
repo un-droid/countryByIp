@@ -13,10 +13,9 @@ type LookupResultProps = {
 
 const LookupResult = ({ result, loading }: LookupResultProps) => {
     if (loading) return <Spinner />
+    if (!result) return null
 
-    const getActionResult = () => {
-        if (!result) return
-
+    const getLookupResult = () => {
         if (result.status === Status.Error || result.status === Status.Warning) {
             return (
                 <>
@@ -29,7 +28,7 @@ const LookupResult = ({ result, loading }: LookupResultProps) => {
         if (result.status === Status.Success && result.data) {
             return (
                 <>
-                    <img src={result.data.countryFlag} className={styles['country-image']} />
+                    <img src={result.data.countryFlag} className={styles['country-image']} alt={ result.data.countryName} />
                     <Time currentUnixTime={result.data.unixTime} timeZone={result.data.timeZone} />
                 </>
             )
@@ -38,7 +37,7 @@ const LookupResult = ({ result, loading }: LookupResultProps) => {
 
     return (
         <div className={styles['result-container']}>
-            {getActionResult()}
+            {getLookupResult()}
         </div>
     )
 }

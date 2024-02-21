@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
-import InputRow from '../input.component'
+import IPInput from '../ip.input.component'
 import useCountryByIp from '../../../hooks/useCountryByIp'
 
 const fetchCountryDataMock = jest.fn()
@@ -19,7 +19,7 @@ jest.mock('../../../hooks/useCountryByIp', () => {
 const onRemoveRowMock = jest.fn()
 
 
-describe('InputRow Component', () => {
+describe('IPInput Component', () => {
     beforeEach(() => {
         // reset mock implementations and states before each test
         jest.mocked(useCountryByIp).mockImplementation(() => ({
@@ -31,7 +31,7 @@ describe('InputRow Component', () => {
     })
 
     it('should render with an input field and index label', () => {
-        render(<InputRow index={1} placeholder="Enter an IP" onRemoveRow={onRemoveRowMock} isLastInput={false} />)
+        render(<IPInput index={1} placeholder="Enter an IP" onRemoveRow={onRemoveRowMock} isLastInput={false} />)
 
         const inputField = screen.getByPlaceholderText('Enter an IP')
         const indexLabel = screen.getByText('1')
@@ -40,7 +40,7 @@ describe('InputRow Component', () => {
     })
 
     it('should allow valid ip input', async () => {
-        render(<InputRow index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
+        render(<IPInput index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
         const inputField = screen.getByRole('textbox')
 
         await userEvent.type(inputField, '127.0.0.1')
@@ -48,7 +48,7 @@ describe('InputRow Component', () => {
     })
 
     it('should prevent invalid characters', async () => {
-        render(<InputRow index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
+        render(<IPInput index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
         const inputField = screen.getByRole('textbox')
 
         await userEvent.type(inputField, 'abcd')
@@ -56,7 +56,7 @@ describe('InputRow Component', () => {
     })
 
     it('calls fetchCountryData on form submission with valid input', async () => {
-        render(<InputRow index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
+        render(<IPInput index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
         const inputField = screen.getByRole('textbox')
 
         await userEvent.type(inputField, '127.0.0.1')
@@ -76,19 +76,19 @@ describe('InputRow Component', () => {
             fetchCountryData: fetchCountryDataMock,
         }))
 
-        render(<InputRow index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
+        render(<IPInput index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
         const inputField = screen.getByRole('textbox')
         await waitFor(() => expect(inputField).toBeDisabled())
     })
 
     it('does not disable input when loading is false', async () => {
-        render(<InputRow index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
+        render(<IPInput index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
         const inputField = screen.getByRole('textbox')
         await waitFor(() => expect(inputField).not.toBeDisabled())
     })
 
     it('calls fetchCountryData with empty string and touchedForm = false', async () => {
-        render(<InputRow index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
+        render(<IPInput index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
 
         const inputField = screen.getByRole('textbox')
 
@@ -101,12 +101,12 @@ describe('InputRow Component', () => {
     })
 })
 
-describe('InputRow - remove row', () => {
+describe('IPInput - remove row', () => {
     test('calls onRemoveRow with the correct index when remove icon is clicked and not last row (isLastInput=false)', async () => {
         const onRemoveRowMock = jest.fn()
         const index = 2
 
-        render(<InputRow index={index} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
+        render(<IPInput index={index} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
 
         // grab the label by getByTestId
         fireEvent.mouseEnter(screen.getByTestId(`remove-row-${index}`))
@@ -125,7 +125,7 @@ describe('InputRow - remove row', () => {
         const onRemoveRowMock = jest.fn()
         const index = 1
 
-        render(<InputRow index={index} onRemoveRow={onRemoveRowMock} isLastInput={true} />)
+        render(<IPInput index={index} onRemoveRow={onRemoveRowMock} isLastInput={true} />)
 
         // try to click the label, expecting no removal to occur
         await userEvent.click(screen.getByText(index.toString()))

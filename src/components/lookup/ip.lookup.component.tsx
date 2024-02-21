@@ -1,38 +1,38 @@
 import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import styles from './lookup.component.module.scss'
+import styles from './ip.lookup.component.module.scss'
 import Button from "../button/button.component"
-import InputRow from "../input/input.component"
+import IPInput from "../input/ip.input.component"
 import { useCallback, useState } from "react"
 
 export const IP_LOOKUP_TITLE = 'IP Lookup'
 export const ADD = 'Add'
 export const IP_LOOKUP_BODY = 'Enter one or more IP addresses and get their country'
 
-type InputRowType = {
+type IPInputType = {
     inputIndex: number
     value?: string
     placeholder?: string
 }
 
 const Lookup = () => {
-    const [rows, setRows] = useState<InputRowType[]>([{inputIndex: 1}])
+    const [rows, setRows] = useState<IPInputType[]>([{ inputIndex: 1 }])
 
-    const handleAdd = () => {
-        setRows((prevRows: InputRowType[]) => {
+    const handleAdd = useCallback(() => {
+        setRows((prevRows: IPInputType[]) => {
             const currentRows = [...prevRows]
             const nextInputIndex = currentRows[currentRows.length - 1].inputIndex + 1
             currentRows.push({ value: '', inputIndex: nextInputIndex })
             return currentRows
         })
-    }
+    }, [])
 
     const handleRemoveRow = useCallback((index: number) => {
-        setRows((prevRows: InputRowType[]) => {
+        setRows((prevRows: IPInputType[]) => {
             return [...prevRows].filter(row => row.inputIndex !== index)
         })
-    },[])
+    }, [])
 
     return (
         <div className={styles['lookup-container']}>
@@ -40,7 +40,7 @@ const Lookup = () => {
                 <header>{IP_LOOKUP_TITLE}</header>
                 <FontAwesomeIcon icon={faXmark} className={styles['lookup-header-close']} />
             </div>
-            <div className={styles['lookup-body']}>
+            <main className={styles['lookup-body']}>
                 <div className={styles['lookup-add-row']}>
                     <p>{IP_LOOKUP_BODY}</p>
                     <Button onClick={handleAdd}>
@@ -48,8 +48,8 @@ const Lookup = () => {
                         <span>{ADD}</span>
                     </Button>
                 </div>
-                {rows.map((row: InputRowType) => {
-                    return <InputRow key={row.inputIndex}
+                {rows.map((row: IPInputType) => {
+                    return <IPInput key={row.inputIndex}
                         index={row.inputIndex}
                         value={row.value}
                         placeholder={row.placeholder}
@@ -57,7 +57,7 @@ const Lookup = () => {
                         isLastInput={rows.length === 1}
                     />
                 })}
-            </div>
+            </main>
         </div>
     )
 }
