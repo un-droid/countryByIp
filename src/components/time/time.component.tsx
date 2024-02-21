@@ -11,7 +11,7 @@ const Time = ({ currentUnixTime, timeZone = 'UTC' }: TimeProps) => {
     const [time, setTime] = useState(currentUnixTime * 1000)
 
     useEffect(() => {
-        if (!currentUnixTime || currentUnixTime <= 0) return
+        if (!currentUnixTime) return
         const t_id = setInterval(() => {
             setTime((prevTime) => prevTime + ONE_SECOND)
         }, ONE_SECOND)

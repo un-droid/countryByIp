@@ -5,6 +5,7 @@ import styles from './ip.lookup.component.module.scss'
 import Button from "../button/button.component"
 import IPInput from "../input/ip.input.component"
 import { useCallback, useState } from "react"
+import { simpleUUID } from "../../utils"
 
 export const IP_LOOKUP_TITLE = 'IP Lookup'
 export const ADD = 'Add'
@@ -14,23 +15,25 @@ type IPInputType = {
     inputIndex: number
     value?: string
     placeholder?: string
+    id: string
 }
 
 const Lookup = () => {
-    const [rows, setRows] = useState<IPInputType[]>([{ inputIndex: 1 }])
+    const [rows, setRows] = useState<IPInputType[]>([{ inputIndex: 1, id: simpleUUID() }])
 
     const handleAdd = useCallback(() => {
         setRows((prevRows: IPInputType[]) => {
             const currentRows = [...prevRows]
             const nextInputIndex = currentRows[currentRows.length - 1].inputIndex + 1
-            currentRows.push({ value: '', inputIndex: nextInputIndex })
+            currentRows.push({ value: '', inputIndex: nextInputIndex, id: simpleUUID() })
             return currentRows
         })
     }, [])
 
     const handleRemoveRow = useCallback((index: number) => {
-        setRows((prevRows: IPInputType[]) => {
-            return [...prevRows].filter(row => row.inputIndex !== index)
+        setRows((prevRows) => {
+            const newRows = prevRows.filter(row => row.inputIndex !== index)
+            return newRows.map((row, index) => ({ ...row, inputIndex: index +1 }))
         })
     }, [])
 
@@ -49,7 +52,7 @@ const Lookup = () => {
                     </Button>
                 </div>
                 {rows.map((row: IPInputType) => {
-                    return <IPInput key={row.inputIndex}
+                    return <IPInput key={row.id}
                         index={row.inputIndex}
                         value={row.value}
                         placeholder={row.placeholder}
