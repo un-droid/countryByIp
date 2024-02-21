@@ -102,7 +102,7 @@ describe('InputRow Component', () => {
 })
 
 describe('InputRow - remove row', () => {
-    test('calls onRemoveRow with the correct index when remove icon is clicked and index > 1', async () => {
+    test('calls onRemoveRow with the correct index when remove icon is clicked and not last row (isLastInput=false)', async () => {
         const onRemoveRowMock = jest.fn()
         const index = 2
 
@@ -121,7 +121,7 @@ describe('InputRow - remove row', () => {
         })
     })
 
-    test('does not call onRemoveRow when index <= 1', async () => {
+    test('does not call onRemoveRow when isLastInput is true', async () => {
         const onRemoveRowMock = jest.fn()
         const index = 1
 
