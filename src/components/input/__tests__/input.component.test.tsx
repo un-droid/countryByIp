@@ -104,15 +104,21 @@ describe('InputRow Component', () => {
 describe('InputRow - remove row', () => {
     test('calls onRemoveRow with the correct index when remove icon is clicked and index > 1', async () => {
         const onRemoveRowMock = jest.fn()
-        const index = 2 // index greater than 1 to allow removal
+        const index = 2
 
-        render(<InputRow index={2} onRemoveRow={onRemoveRowMock} isLastInput={ false} />)
+        render(<InputRow index={index} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
 
         // grab the label by getByTestId
         fireEvent.mouseEnter(screen.getByTestId(`remove-row-${index}`))
         await userEvent.click(screen.getByTestId(`remove-row-${index}`))
 
-        expect(onRemoveRowMock).toHaveBeenCalledWith(index)
+        // manually trigger the onAnimationEnd event to simulate the end of the animation
+        fireEvent.animationEnd(screen.getByTestId(`remove-row-${index}`))
+
+        // waitFor to allow any state updates to complete
+        await waitFor(() => {
+            expect(onRemoveRowMock).toHaveBeenCalledWith(index)
+        })
     })
 
     test('does not call onRemoveRow when index <= 1', async () => {
