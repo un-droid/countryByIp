@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import styles from './lookup.component.module.scss'
 import Button from "../button/button.component"
 import InputRow from "../input/input.component"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 
 export const IP_LOOKUP_TITLE = 'IP Lookup'
 export const ADD = 'Add'
@@ -20,13 +20,19 @@ const Lookup = () => {
     const [rows, setRows] = useState<InputRowType[]>([{inputIndex: 1}])
 
     const handleAdd = () => {
-        setRows((prev: InputRowType[]) => {
-            const currentRows = [...prev]
+        setRows((prevRows: InputRowType[]) => {
+            const currentRows = [...prevRows]
             const nextInputIndex = currentRows[currentRows.length - 1].inputIndex + 1
             currentRows.push({ value: '', inputIndex: nextInputIndex })
             return currentRows
         })
     }
+
+    const handleRemoveRow = useCallback((index: number) => {
+        setRows((prevRows: InputRowType[]) => {
+            return [...prevRows].filter(row => row.inputIndex !== index)
+        })
+    },[])
 
     return (
         <div className={styles['lookup-container']}>
@@ -47,6 +53,8 @@ const Lookup = () => {
                         index={row.inputIndex}
                         value={row.value}
                         placeholder={row.placeholder}
+                        onRemoveRow={handleRemoveRow}
+                        isLastInput={rows.length === 1}
                     />
                 })}
             </div>

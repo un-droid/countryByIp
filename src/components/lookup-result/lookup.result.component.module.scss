@@ -5,14 +5,19 @@
     align-items: center;
     gap: 15px;
 
-    .icon-warning {
-        color: $warning-color;
-        font-size: 20px;
+    .icon {
+        font-size: $font-size-icon-medium;
+
+        &.icon-warning {
+            color: $warning-color;
+        }
+
+        &.icon-error {
+            color: $error-color;
+        }
     }
 
-    .icon-error {
-        color: $error-color;
-    }
+
 
     .country-image {
         width: 40px;

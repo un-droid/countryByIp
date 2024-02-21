@@ -20,7 +20,7 @@ const LookupResult = ({ result, loading }: LookupResultProps) => {
         if (result.status === Status.Error || result.status === Status.Warning) {
             return (
                 <>
-                    <FontAwesomeIcon icon={faTriangleExclamation} className={styles[`icon-${result.status}`]} />
+                    <FontAwesomeIcon icon={faTriangleExclamation} className={`${styles.icon} ${styles[`icon-${result.status}`]}`} />
                     <span>{result.message}</span>
                 </>
             )
