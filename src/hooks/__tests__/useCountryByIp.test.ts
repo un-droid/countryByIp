@@ -1,5 +1,5 @@
-import {  act, renderHook,  waitFor } from '@testing-library/react'
-import useCountryByIp, { initialData, INVALID_IP } from '../useCountryByIp'
+import { act, renderHook, waitFor } from '@testing-library/react'
+import useCountryByIp, { initialData, INVALID_IP_MSG } from '../useCountryByIp'
 import { Status } from '../../types'
 import fetchMock from 'jest-fetch-mock'
 
@@ -54,19 +54,14 @@ const mockExtractedData = {
     timeZone: 'America/New_York'
 }
 
-describe('useCountryByIp hook', () => {
-    jest.mock('../useCountryByIp.ts', () => ({
-        useCountryByIp: () => {
-            return mockResponse
-        },
-    }))
+const NETWORK_ERR = 'Network Error'
+const ERR_FETCHING = 'Error fetching data'
+const VALID_IP = '1.1.1.1'
+const INVALID_IP = '1..11.1.1'
 
+describe('useCountryByIp hook', () => {
     afterEach(() => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (window as any).fetch.mockResolvedValue({
-            json: jest.fn().mockResolvedValue(mockResponse),
-        })
-        jest.restoreAllMocks()
+        fetchMock.resetMocks()
     })
 
     it('should start with initial state', async () => {
@@ -77,12 +72,10 @@ describe('useCountryByIp hook', () => {
     })
 
     it('sets loading state correctly during fetch', async () => {
-        //fetchMock.mockResponseOnce(JSON.stringify({ id: 1 }))
-
         const { result } = renderHook(() => useCountryByIp())
 
         act(() => {
-            result.current.fetchCountryData('1.1.1.1', true)
+            result.current.fetchCountryData(VALID_IP, true)
         })
 
         expect(result.current.loading).toBe(true)
@@ -96,20 +89,20 @@ describe('useCountryByIp hook', () => {
         const { result } = renderHook(() => useCountryByIp())
 
         act(() => {
-            result.current.fetchCountryData('1..11.1.1', true)
+            result.current.fetchCountryData(INVALID_IP, true)
         })
 
-        expect(result.current.reqStatus).toEqual({ data: null, status: Status.Warning, message: INVALID_IP })
+        expect(result.current.reqStatus).toEqual({ data: null, status: Status.Warning, message: INVALID_IP_MSG })
     })
 
     it('handles successful API response', async () => {
         fetchMock.mockResponseOnce(JSON.stringify(mockResponse))
 
-        const { result } = renderHook(() => useCountryByIp())      
+        const { result } = renderHook(() => useCountryByIp())
         act(() => {
-            result.current.fetchCountryData('1.1.1.1', true)
+            result.current.fetchCountryData(VALID_IP, true)
         })
-       
+
         await waitFor(() => {
             expect(result.current.loading).toBe(false)
             expect(result.current.reqStatus!.status).toBe(Status.Success)
@@ -118,33 +111,48 @@ describe('useCountryByIp hook', () => {
     })
 
     it('handles network error correctly', async () => {
-        fetchMock.mockRejectOnce(new Error('Network Error'))
+        fetchMock.mockRejectOnce(new Error(NETWORK_ERR))
 
         const { result } = renderHook(() => useCountryByIp())
 
         act(() => {
-            result.current.fetchCountryData('1.1.1.1', true)
+            result.current.fetchCountryData(VALID_IP, true)
         })
 
         await waitFor(() => expect(result.current.loading).toBe(false))
 
         expect(result.current.reqStatus?.status).toBe(Status.Error)
-        expect(result.current.reqStatus?.message).toBe('Network Error')
+        expect(result.current.reqStatus?.message).toBe(NETWORK_ERR)
     })
 
     it('handles server-side error correctly', async () => {
-        fetchMock.mockResponseOnce(JSON.stringify({ message: 'Error fetching data' }), { status: 500 })
+        fetchMock.mockResponseOnce(JSON.stringify({ message: ERR_FETCHING }), { status: 500 })
 
         const { result } = renderHook(() => useCountryByIp())
 
         act(() => {
-            result.current.fetchCountryData('1.1.1.1', true)
+            result.current.fetchCountryData(VALID_IP, true)
         })
 
         await waitFor(() => expect(result.current.loading).toBe(false))
         console.log(result.current)
         expect(result.current.reqStatus?.status).toBe(Status.Error)
-        expect(result.current.reqStatus?.message).toEqual('Error fetching data')
+        expect(result.current.reqStatus?.message).toEqual(ERR_FETCHING)
+    })
+
+    it('handles network loss correctly', async () => {
+        fetchMock.mockRejectOnce(new Error(NETWORK_ERR))
+
+        const { result } = renderHook(() => useCountryByIp())
+
+        act(() => {
+            result.current.fetchCountryData(VALID_IP, true)
+        })
+
+        await waitFor(() => expect(result.current.loading).toBe(false))
+        await waitFor(() => expect(result.current.reqStatus?.status).toBe(Status.Error))
+
+        expect(result.current.reqStatus?.message).toBe(NETWORK_ERR)
     })
 })
 

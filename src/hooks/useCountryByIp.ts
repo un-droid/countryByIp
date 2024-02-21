@@ -11,7 +11,7 @@ export const initialData: CountryResponse = {
     timeZone: ''
 }
 
-export const INVALID_IP = 'Please enter a valid ip adress'
+export const INVALID_IP_MSG = 'Please enter a valid ip adress'
 const NETWORK_ERR = 'Network response was not ok'
 const UNEXPECTED_ERR = 'An unexpected error occurred'
 
@@ -22,7 +22,7 @@ export default function useCountryByIp() {
     const fetchCountryData = async (ip: string, formTouched: boolean) => {
         if (!isValidIp(ip)) {
             // if the form is dirty set an error, otherwise just abort the request
-            formTouched && setReqStatus({ data: null, status: Status.Warning, message: INVALID_IP })
+            formTouched && setReqStatus({ data: null, status: Status.Warning, message: INVALID_IP_MSG })
             return
         }
         setLoading(true)
@@ -30,14 +30,14 @@ export default function useCountryByIp() {
 
         try {
             const response = await fetch(`${BASE_URL}/getCountryByIp?ip=${ip}`)
-            const responseData: RawCountryData | BasicError  = await response.json()
+            const responseData: RawCountryData | BasicError = await response.json()
 
             if (!response.ok) {
                 const errorMessage = (responseData as BasicError).message || NETWORK_ERR
                 setReqStatus({ status: Status.Error, data: null, message: errorMessage })
                 return
             }
-            
+
             setReqStatus({ status: Status.Success, data: extractCountryData(responseData as RawCountryData) })
         } catch (error) {
             setReqStatus({ status: Status.Error, data: null, message: (error as Error).message || UNEXPECTED_ERR })
