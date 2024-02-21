@@ -30,7 +30,7 @@ const LookupResult = ({ result, loading }: LookupResultProps) => {
             return (
                 <>
                     <img src={result.data.countryFlag} className={styles['country-image']} />
-                    <Time currentUnixTime={result.data.unixTime} />
+                    <Time currentUnixTime={result.data.unixTime} timeZone={result.data.timeZone} />
                 </>
             )
         }

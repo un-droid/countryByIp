@@ -7,7 +7,8 @@ const initialData: CountryResponse = {
     countryFlag: '',
     countryName: '',
     localTime: '',
-    unixTime: undefined
+    unixTime: 0,
+    timeZone: ''
 }
 
 const INVALID_IP = 'Please enter a valid ip adress'

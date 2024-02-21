@@ -10,10 +10,9 @@ type InputRowProps = {
 }
 
 const InputRow = ({ index, placeholder, value = '' }: InputRowProps) => {
-console.log('input render')
     const [ip, setIp] = useState(value)
     const [formTouched, setFormTouched] = useState(false)
-    
+
     const { loading, reqStatus, fetchCountryData } = useCountryByIp()
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

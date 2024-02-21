@@ -43,7 +43,8 @@ export type CountryResponse = {
     countryFlag: string
     countryName: string
     localTime: string
-    unixTime: number | undefined
+    unixTime: number
+    timeZone: string
 }
 
 export enum Status {
