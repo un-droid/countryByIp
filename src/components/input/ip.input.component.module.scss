@@ -60,6 +60,10 @@
             &-error {
                 @include inputState($error-color);
             }
+            
+            &-info {
+                @include inputState($info-color);
+            }
         }
     }
 }

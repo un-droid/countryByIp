@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BasicError, CountryResponse, LookupResultData, RawCountryData, Status } from '../types';
+import { CountryResponse, LookupResultData, Status } from '../types';
 import { BASE_URL } from '../consts';
 import { extractCountryData, isValidIp } from '../utils';
 
@@ -29,15 +29,15 @@ export default function useCountryByIp() {
 
         try {
             const response = await fetch(`${BASE_URL}/getCountryByIp?ip=${ip}`)
-            const responseData: RawCountryData | BasicError = await response.json()
+            const responseData = await response.json()
 
             if (!response.ok) {
-                const errorMessage = (responseData as BasicError).message || NETWORK_ERR
-                setReqStatus({ status: Status.Error, data: null, message: errorMessage })
+                const errorMessage = responseData.message || NETWORK_ERR
+                setReqStatus({ status: response.status === 422 ? Status.Info : Status.Error, data: null, message: errorMessage })
                 return
             }
 
-            setReqStatus({ status: Status.Success, data: extractCountryData(responseData as RawCountryData) })
+            setReqStatus({ status: Status.Success, data: extractCountryData(responseData) })
         } catch (error) {
             setReqStatus({ status: Status.Error, data: null, message: (error as Error).message || UNEXPECTED_ERR })
         } finally {

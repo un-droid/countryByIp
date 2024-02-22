@@ -51,7 +51,8 @@ export enum Status {
     Success = 'success',
     Error = 'error',
     Warning = 'warning',
-    Idle = 'idle'
+    Idle = 'idle',
+    Info = 'info'
 }
 
 export type LookupResultData = {
@@ -59,5 +60,3 @@ export type LookupResultData = {
     data: CountryResponse | null
     message?: string
 }
-
-export type BasicError = { message?: string }
