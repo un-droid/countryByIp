@@ -7,7 +7,7 @@ export const isValidIp = (ip: string): boolean => {
 
 export const getLocalTime = (unixTime: number, timeZone: string = 'UTC'): string => {
     try {
-        if (!unixTime || unixTime <= 0) return "00:00:00"
+        if (!unixTime) return "00:00:00"
 
         const date = new Date(unixTime)
 
@@ -36,4 +36,8 @@ export const extractCountryData = (rawData: RawCountryData): CountryResponse => 
         timeZone: rawData?.time_zone?.name
     }
     return countryData
+}
+
+export const simpleUUID = () => {
+    return Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12)
 }

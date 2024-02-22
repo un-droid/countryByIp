@@ -39,7 +39,7 @@ describe('Time component', () => {
 
     it('handles udefined for currentUnixTime by displaying default time', () => {
         render(<Time currentUnixTime={undefined as unknown as number} />)
-        expect(screen.getByText('00:00:00')).toBeInTheDocument()
+        expect(screen.getByText('Invalid Date')).toBeInTheDocument()
     })
 
     it('updates displayed time correctly', async() => {

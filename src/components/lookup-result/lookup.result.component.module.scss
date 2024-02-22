@@ -5,16 +5,24 @@
     align-items: center;
     gap: 15px;
 
-    .icon-warning {
-        color: $warning-color;
-        font-size: 20px;
-    }
+    .icon {
+        font-size: $font-size-icon-medium;
 
-    .icon-error {
-        color: $error-color;
+        &.icon-warning {
+            color: $warning-color;
+        }
+
+        &.icon-error {
+            color: $error-color;
+        }
+        
+        &.icon-info {
+            color: $info-color;
+        }
     }
 
     .country-image {
-        width: 40px;
+        width: 30px;
+        border-radius: 3px;
     }
 }

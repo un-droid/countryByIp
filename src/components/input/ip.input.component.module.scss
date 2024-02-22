@@ -1,0 +1,91 @@
+@import '../../stlyes/global.styles.scss';
+
+@mixin inputState($color) {
+    border-color: rgba($color, 0.2);
+
+    &:focus {
+        border-color: rgba($color, 0.2);
+    }
+}
+
+.row-container {
+    display: flex;
+    gap: 20px;
+    padding-top: 15px;
+    animation: fadeInMoveDown 0.2s ease-out;
+
+    &.removing {
+        animation: fadeOut 0.2s ease-out forwards;
+    }
+
+    .input-form {
+        display: flex;
+        gap: 10px;
+        height: 25px;
+        align-items: center;
+
+        .index {
+            border-radius: 50%;
+            background-color: $grey;
+            color: $grey-dark;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .remove-row-icon {
+                cursor: pointer;
+                font-size: $font-size-icon-small;
+            }
+        }
+
+        .input {
+            outline: none;
+            transition: border 0.1s ease;
+            border-radius: $border-radius;
+            border: 2px solid $grey;
+            height: 100%;
+            padding: 3px 10px;
+            font-weight: $weight-bold;
+
+            &:focus {
+                border: 2px solid $primary-color;
+            }
+
+            &-warning {
+                @include inputState($warning-color);
+            }
+
+            &-error {
+                @include inputState($error-color);
+            }
+            
+            &-info {
+                @include inputState($info-color);
+            }
+        }
+    }
+}
+
+@keyframes fadeInMoveDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

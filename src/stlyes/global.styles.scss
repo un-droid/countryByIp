@@ -10,6 +10,7 @@ $error-color: #c62828;
 //just to complete the color palette for all statuses
 $success-color: #75dcdc;
 $idle-color: #b881b8;
+$info-color: #74c0fc;
 
 $secondary-color: darken($primary-color, 30%);
 
@@ -22,6 +23,8 @@ $padding-button: 8px 18px;
 //typography
 $weight-normal: 400;
 $weight-bold: 600;
+$font-size-icon-small: 12px;
 $font-size-default: 14px;
+$font-size-icon-medium: 20px;
 $font-size-header: 21px;
-$font-size-icon: 25px;
+$font-size-icon-large: 25px;

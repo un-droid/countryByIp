@@ -1,11 +1,9 @@
-import Lookup from "./components/lookup/lookup.component"
+import Lookup from "./components/lookup/ip.lookup.component"
 
 function App() {
 
   return (
-    <>
-      <Lookup/>
-    </>
+    <Lookup />
   )
 }
 
