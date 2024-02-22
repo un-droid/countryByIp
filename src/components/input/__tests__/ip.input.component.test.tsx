@@ -16,8 +16,8 @@ jest.mock('../../../hooks/useCountryByIp', () => {
         })),
     }
 })
-const onRemoveRowMock = jest.fn()
 
+const onRemoveRowMock = jest.fn()
 
 describe('IPInput Component', () => {
     beforeEach(() => {
@@ -26,6 +26,7 @@ describe('IPInput Component', () => {
             loading: false,
             reqStatus: null,
             fetchCountryData: fetchCountryDataMock,
+            handleStateReset: jest.fn()
         }))
         fetchCountryDataMock.mockClear()
     })
@@ -74,6 +75,7 @@ describe('IPInput Component', () => {
             loading: true,
             reqStatus: null,
             fetchCountryData: fetchCountryDataMock,
+            handleStateReset: jest.fn()
         }))
 
         render(<IPInput index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
