@@ -9,12 +9,21 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 
     &-primary {
         background-color: $primary-color;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+        }
     }
 
     &-secondary {
         background-color: $secondary-color;
+
+        &:hover {
+            background-color: darken($secondary-color, 10%);
+        }
     }
 }
