@@ -45,5 +45,20 @@ export default function useCountryByIp() {
         }
     }
 
-    return { loading, reqStatus, fetchCountryData }
+    const handleStateReset = (newStatusState: Status) => {
+        setReqStatus((prevState: LookupResultData | null) => {
+            // if prevState is null, initialize it with a default value
+            if (!prevState) {
+                return { status: Status.Idle, data: initialData }
+            }
+
+            // otherwise
+            return {
+                ...prevState,
+                status: newStatusState,
+            }
+        })
+    }
+
+    return { loading, reqStatus, fetchCountryData, handleStateReset }
 }

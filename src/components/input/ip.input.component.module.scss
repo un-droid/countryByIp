@@ -1,5 +1,13 @@
 @import '../../stlyes/global.styles.scss';
 
+@mixin inputState($color) {
+    border-color: rgba($color, 0.2);
+
+    &:focus {
+        border-color: rgba($color, 0.2);
+    }
+}
+
 .row-container {
     display: flex;
     gap: 20px;
@@ -28,6 +36,7 @@
 
             .remove-row-icon {
                 cursor: pointer;
+                font-size: $font-size-icon-small;
             }
         }
 
@@ -42,6 +51,14 @@
 
             &:focus {
                 border: 2px solid $primary-color;
+            }
+
+            &-warning {
+                @include inputState($warning-color);
+            }
+
+            &-error {
+                @include inputState($error-color);
             }
         }
     }

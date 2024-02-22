@@ -3,8 +3,9 @@ import styles from './ip.input.component.module.scss'
 import useCountryByIp from '../../hooks/useCountryByIp'
 import LookupResult from '../lookup-result/lookup.result.component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
+import { Status } from '../../types'
 
 type IPInputProps = {
     index: number
@@ -20,10 +21,11 @@ const IPInput = React.memo(({ index, placeholder, value = '', onRemoveRow, isLas
     const [isHovered, setIsHovered] = useState(false)
     const [isRemoving, setIsRemoving] = useState(false)
 
-    const { loading, reqStatus, fetchCountryData } = useCountryByIp()
+    const { loading, reqStatus, fetchCountryData, handleStateReset } = useCountryByIp()
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFormTouched(true)
+        handleStateReset(Status.Idle)
         const { value } = e.target
         // prevents the user from entering anything else but 0-9 and '.'
         const regex = /^[0-9.]*$/
@@ -52,11 +54,11 @@ const IPInput = React.memo(({ index, placeholder, value = '', onRemoveRow, isLas
                     onMouseLeave={() => setIsHovered(false)}
                     onClick={handleRemoveRow}
                     data-testid={`remove-row-${index}`}
-                >{isHovered ? <FontAwesomeIcon icon={faXmark} className={styles['remove-row-icon']} /> : index}</label>
+                >{isHovered ? <FontAwesomeIcon icon={faTrash} className={styles['remove-row-icon']} /> : index}</label>
 
                 <input type="text"
                     onChange={handleChange}
-                    className={styles.input}
+                    className={`${styles.input} ${styles[`input-${reqStatus?.status}`]}`}
                     placeholder={placeholder} // in theory we can pass a placeholder for the input
                     onBlur={submitFetchRequest}
                     value={ip}
