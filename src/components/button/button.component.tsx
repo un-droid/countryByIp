@@ -13,7 +13,7 @@ const Button = React.memo(({variant = 'primary', children, ...props}: ButtonProp
     const variantClass = styles[`button-${variant}`]
     
     return (
-        <button className={`${styles.button} ${variantClass}`} {...props}>{children}</button>
+        <button className={`button ${styles.button} ${variantClass}`} {...props}>{children}</button>
     )
 })
 

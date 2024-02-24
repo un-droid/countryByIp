@@ -10,6 +10,7 @@
     gap: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: $weight-bold;
 
     &-primary {
         background-color: $primary-color;
@@ -25,5 +26,9 @@
         &:hover {
             background-color: darken($secondary-color, 10%);
         }
+    }
+
+    svg{
+        font-size: $font-size-icon-medium;
     }
 }
