@@ -8,7 +8,8 @@ export const initialData: CountryResponse = {
     countryName: '',
     localTime: '',
     unixTime: 0,
-    timeZone: ''
+    timeZone: '',
+    ip: ''
 }
 
 export const INVALID_IP_MSG = 'Please enter a valid IP address'
@@ -20,6 +21,8 @@ export default function useCountryByIp() {
     const [reqStatus, setReqStatus] = useState<LookupResultData | null>({ status: Status.Idle, data: initialData })
 
     const fetchCountryData = async (ip: string, formTouched: boolean) => {
+        // dont init new request for the same ip
+        if (ip === reqStatus?.data?.ip) return
         if (!isValidIp(ip)) {
             // if the form is dirty set an error, otherwise just abort the request
             formTouched && setReqStatus({ data: null, status: Status.Warning, message: INVALID_IP_MSG })

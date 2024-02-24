@@ -45,6 +45,7 @@ export type CountryResponse = {
     localTime: string
     unixTime: number
     timeZone: string
+    ip: string
 }
 
 export enum Status {

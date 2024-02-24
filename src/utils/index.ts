@@ -33,7 +33,8 @@ export const extractCountryData = (rawData: RawCountryData): CountryResponse => 
         countryName: rawData?.country_name,
         localTime: getLocalTime(rawData?.time_zone?.current_time_unix),
         unixTime: rawData?.time_zone?.current_time_unix,
-        timeZone: rawData?.time_zone?.name
+        timeZone: rawData?.time_zone?.name,
+        ip: rawData.ip
     }
     return countryData
 }

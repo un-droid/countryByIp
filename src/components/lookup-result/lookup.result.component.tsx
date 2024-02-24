@@ -30,10 +30,12 @@ const LookupResult = React.memo(({ result, loading }: LookupResultProps) => {
                         <span>{result.message}</span>
                     </>
                 )
+            // status can be idle, i.e user changed existing query
+            case Status.Idle:
             case Status.Success:
                 return (
                     <>
-                        {result.data ? (
+                        {result.data?.countryName && result.data.unixTime ? (
                             <>
                                 <img src={result.data.countryFlag} className={styles['country-image']} alt={result.data.countryName} />
                                 <Time currentUnixTime={result.data.unixTime} timeZone={result.data.timeZone} />

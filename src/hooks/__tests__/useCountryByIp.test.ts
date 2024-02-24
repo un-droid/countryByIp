@@ -46,22 +46,25 @@ const mockResponse = {
     },
 }
 
+
+const NETWORK_ERR = 'Network Error'
+const ERR_FETCHING = 'Error fetching data'
+const VALID_IP = "23.46.202.144"
+const INVALID_IP = '1..11.1.1'
+
 const mockExtractedData = {
     countryFlag: 'https://ipgeolocation.io/static/flags/us_64.png',
     countryName: 'United States',
     localTime: '18:32:34',
     unixTime: 1708354201.463,
-    timeZone: 'America/New_York'
+    timeZone: 'America/New_York',
+    ip: VALID_IP,
 }
-
-const NETWORK_ERR = 'Network Error'
-const ERR_FETCHING = 'Error fetching data'
-const VALID_IP = '1.1.1.1'
-const INVALID_IP = '1..11.1.1'
 
 describe('useCountryByIp hook', () => {
     afterEach(() => {
         fetchMock.resetMocks()
+       fetchMock.mockResponse(JSON.stringify(mockResponse))
     })
 
     it('should start with initial state', async () => {
@@ -96,8 +99,6 @@ describe('useCountryByIp hook', () => {
     })
 
     it('handles successful API response', async () => {
-        fetchMock.mockResponseOnce(JSON.stringify(mockResponse))
-
         const { result } = renderHook(() => useCountryByIp())
         act(() => {
             result.current.fetchCountryData(VALID_IP, true)
@@ -155,3 +156,33 @@ describe('useCountryByIp hook', () => {
     })
 })
 
+describe('useCountryByIp hook - fetch optimization', () => {
+    it('does not execute fetchCountryData for the same IP', async () => {
+        const { result } = renderHook(() => useCountryByIp())
+
+        // trigger the first fetch operation
+        act(() => {
+            result.current.fetchCountryData(VALID_IP, true)
+        })
+
+        // wait for the first fetch operation to complete
+        await waitFor(() => expect(result.current.loading).toBe(false))
+
+        // fetch should be called once after the first operation
+        expect(fetchMock).toHaveBeenCalledTimes(1)
+
+        // try to fetch data for the same IP again
+        act(() => {
+            result.current.fetchCountryData(VALID_IP, true)
+        })
+
+        // verify fetch was not called a second time
+        expect(fetchMock).toHaveBeenCalledTimes(1)
+        expect(result.current.reqStatus).toEqual({
+            status: Status.Success,
+            data: expect.objectContaining({
+                ip: VALID_IP,
+            }),
+        })
+    })
+})
