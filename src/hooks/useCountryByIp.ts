@@ -52,6 +52,11 @@ export default function useCountryByIp() {
                 return { status: Status.Idle, data: initialData }
             }
 
+            // dont set new state if its the same status
+            if (prevState.status === newStatusState) {
+                return prevState
+            }
+
             // otherwise
             return {
                 ...prevState,

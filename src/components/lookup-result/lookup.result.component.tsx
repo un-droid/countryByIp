@@ -5,19 +5,19 @@ import Spinner from '../spinner/spinner.component'
 import styles from './lookup.result.component.module.scss'
 import Time from '../time/time.component'
 import { LookupResultData, Status } from '../../types'
+import React from 'react'
 
 type LookupResultProps = {
     result: LookupResultData | null
     loading: boolean
 }
 
-const LookupResult = ({ result, loading }: LookupResultProps) => {
+const LookupResult = React.memo(({ result, loading }: LookupResultProps) => {
     if (loading) return <Spinner />
     if (!result) return null
 
     const renderStatusMessage = (result: LookupResultData) => {
         let icon: IconDefinition
-
 
         switch (result.status) {
             case Status.Info:
@@ -52,6 +52,6 @@ const LookupResult = ({ result, loading }: LookupResultProps) => {
             {renderStatusMessage(result)}
         </div>
     )
-}
+})
 
 export default LookupResult
