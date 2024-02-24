@@ -7,7 +7,7 @@ export const isValidIp = (ip: string): boolean => {
 
 export const getLocalTime = (unixTime: number, timeZone: string = 'UTC'): string => {
     try {
-        if (!unixTime) return "00:00:00"
+        if (!unixTime) return "Invalid Date"
 
         const date = new Date(unixTime)
 
