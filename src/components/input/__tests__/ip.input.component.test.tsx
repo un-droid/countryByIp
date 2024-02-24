@@ -6,18 +6,18 @@ import useCountryByIp from '../../../hooks/useCountryByIp'
 
 const fetchCountryDataMock = jest.fn()
 
-jest.mock('../../../hooks/useCountryByIp', () => {
-    return {
-        __esModule: true,
-        default: jest.fn(() => ({
-            loading: false,
-            reqStatus: null,
-            fetchCountryData: fetchCountryDataMock,
-        })),
-    }
-})
+jest.mock('../../../hooks/useCountryByIp', () => ({
+    __esModule: true, // used to mimic the behavior of ES modules within Jest, to work correctly when imported with ES6 import syntax
+    default: jest.fn(() => ({
+        loading: false,
+        reqStatus: { status: 'idle', data: null },
+        fetchCountryData: jest.fn(),
+        handleStateReset: jest.fn(),
+    })),
+}))
 
 const onRemoveRowMock = jest.fn()
+const IP = '127.0.0.1'
 
 describe('IPInput Component', () => {
     beforeEach(() => {
@@ -44,8 +44,8 @@ describe('IPInput Component', () => {
         render(<IPInput index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
         const inputField = screen.getByRole('textbox')
 
-        await userEvent.type(inputField, '127.0.0.1')
-        expect(inputField).toHaveValue('127.0.0.1')
+        await userEvent.type(inputField, IP)
+        expect(inputField).toHaveValue(IP)
     })
 
     it('should prevent invalid characters', async () => {
@@ -60,12 +60,12 @@ describe('IPInput Component', () => {
         render(<IPInput index={1} onRemoveRow={onRemoveRowMock} isLastInput={false} />)
         const inputField = screen.getByRole('textbox')
 
-        await userEvent.type(inputField, '127.0.0.1')
+        await userEvent.type(inputField, IP)
         await userEvent.keyboard('{Enter}')
 
         await waitFor(() => {
             // called with a valid ip and formTouched boolean as true
-            expect(fetchCountryDataMock).toHaveBeenCalledWith('127.0.0.1', true)
+            expect(fetchCountryDataMock).toHaveBeenCalledWith(IP, true)
         })
     })
 
