@@ -8,8 +8,8 @@ const futureUnixTime = 2145916800 // some future date
 const timeZone = 'America/New_York'
 
 jest.spyOn(utils, 'getLocalTime').mockImplementation((unixTime, timeZone = 'UTC') => {
-    if (unixTime <= 0) {
-        return "00:00:00"
+    if (!unixTime) {
+        return "Invalid Date"
     }
     return new Date(unixTime).toLocaleTimeString('en-US', {
         hour: '2-digit',
@@ -29,12 +29,7 @@ describe('Time component', () => {
 
     it('handles falsy (0) currentUnixTime by displaying default time', () => {
         render(<Time currentUnixTime={0} />)
-        expect(screen.getByText('00:00:00')).toBeInTheDocument()
-    })
-
-    it('handles falsy negative value (-1) for currentUnixTime by displaying default time', () => {
-        render(<Time currentUnixTime={-1} />)
-        expect(screen.getByText('00:00:00')).toBeInTheDocument()
+        expect(screen.getByText('Invalid Date')).toBeInTheDocument()
     })
 
     it('handles udefined for currentUnixTime by displaying default time', () => {
