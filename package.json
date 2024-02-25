@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "jest --config jest.config.mjs"
+    "test": "jest --config jest.config.mjs --coverage"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
