@@ -7,4 +7,12 @@ export default {
     transform: {
         '^.+\\.tsx?$': 'ts-jest', // Transform TypeScript files
     },
+    collectCoverage: true,
+    collectCoverageFrom: [
+        'src/**/*.{ts,tsx}', // include
+        '!src/**/*.d.ts', // exclude
+        '!src/App.tsx',
+        '!src/main.tsx',
+    ],
+    coverageReporters: ['lcov', 'text'] // standard report format
 }
